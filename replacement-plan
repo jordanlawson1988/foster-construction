@@ -1,0 +1,90 @@
+# Foster Construction Website Replacement Plan
+
+This document outlines the evaluation of the existing `fosterconstructionga.com` website and provides a detailed, step-by-step technical plan for building a modern, high-performance, and visually superior replacement. This plan is formatted so that it can be directly imported or fed into Claude Code.
+
+## 1. Evaluation of Existing Website
+
+### Visual & Aesthetic Profile
+*   **Palette:** Deep navy blue (`#00214d`), crisp white, and light gray accents.
+*   **Typography:** Clean, sans-serif fonts (like Inter/Roboto) for a professional, trustworthy construction brand feel.
+*   **Imagery:** Hero sections with dark overlays, prominent high-resolution galleries of past work (kitchens, bathrooms, additions).
+
+### Desktop Components
+*   **Sticky Header:** Logo left, navigation center (Services, Galleries dropdowns), and dual CTA buttons right ("Send us a Text", "Call Now").
+*   **Hero Section:** Full-width background image with overlay, bold H1 value proposition, and a "Book a Consultation" primary CTA.
+*   **Service Grid:** Interactive cards detailing specialty services.
+*   **Social Proof:** Google/Facebook review badges and a testimonial carousel.
+*   **Footer:** Multi-column layout with business hours, service areas (Marietta, GA), and quick links.
+
+### Mobile Components
+*   **Navigation:** Responsive hamburger menu that cleanly tucks away desktop links.
+*   **Layout:** Grid items (services, reviews) stack vertically.
+*   **Floating CTA:** A persistent "Send us a Text" button stays fixed at the bottom right corner for immediate lead capture on mobile devices.
+
+---
+
+## 2. SMS & Email Capabilities Enablement
+
+The current site heavily pushes "Send us a Text" and "Book a Consultation." To build this into the replica natively, the following technical components and third-party services are required:
+
+### Technical Requirements
+1.  **Frontend Form:** A cohesive modal or dedicated page using `react-hook-form` and `zod` for robust client-side validation.
+2.  **Location Autocomplete:** Integration with the **Google Maps Places API** for the address field to ensure precise lead data.
+3.  **Backend Processing:** Next.js Server Actions or API routes to securely process the form payload without exposing API keys to the client.
+
+### Third-Party Services
+*   **SMS Delivery:** 
+    *   **Twilio:** The industry standard for programmable SMS. You will need a registered Twilio 10DLC (A2P) phone number for programmatic outward texting to adhere to U.S. telecom compliance.
+    *   *Alternative:* A CRM API like **GoHighLevel** or **Podium** if the business already uses a lead management system.
+*   **Email Notifications:**
+    *   **Resend**, **SendGrid**, or **Postmark**: For high-deliverability transactional emails (e.g., sending the business owner an instant alert when a new lead submits the form).
+
+---
+
+## 3. Technical Component Breakdown & Tech Stack
+
+To build a version that looks "even better," we will use a premium modern stack that guarantees fast load times, excellent SEO, and smooth micro-animations.
+
+*   **Framework:** Next.js (App Router) - For SSR, SEO, and fast routing.
+*   **Language:** TypeScript - For type safety and better developer experience.
+*   **Styling:** Tailwind CSS - For rapid, utility-first styling.
+*   **UI Components:** shadcn/ui & Radix UI - For accessible, high-quality, unstyled components (Modals, Carousels, Forms, Sheets) that we can theme beautifully.
+*   **Animations:** Framer Motion - To add premium micro-animations (e.g., fade-in on scroll, smooth modal popups, interactive hover states on service cards).
+*   **Icons:** Lucide React.
+
+---
+
+## 4. Implementation Plan (For Claude Code)
+
+*You can copy this section directly into your Claude Code prompt or provide it as context.*
+
+### Phase 1: Project Setup & Foundation
+1.  Initialize Next.js project: `npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"`
+2.  Install shadcn/ui: `npx shadcn@latest init` (Select "New York" style, Slate color).
+3.  Install Framer Motion: `npm i framer-motion`.
+4.  Configure global CSS (`src/app/globals.css`) with defining brand variables (Navy Blue, White, Slate Gray).
+5.  Set up the base layout with a custom layout wrapper for the Header and Footer components.
+
+### Phase 2: Core Layout & Navigation
+1.  **Header Component:** Build a responsive, sticky `Header.tsx`. Implement a desktop navigation bar and a mobile hamburger menu using shadcn `Sheet` component. Add the primary CTA buttons ("Call Now", "Text Us").
+2.  **Footer Component:** Build `Footer.tsx` with a multi-column grid containing brand info, links, service areas, and contact details.
+
+### Phase 3: Building the Landing Page Sections
+1.  **Hero Section:** Create a full-height container with a background image (using `next/image` with `priority`), dark overlay, and Framer Motion for text fade-ins.
+2.  **Services Section:** Build a reusable `ServiceCard` component. Implement a CSS Grid layout for desktop, dropping to a single column on mobile. Add hover scaling effects.
+3.  **Testimonials Carousel:** Use shadcn `Carousel` to display client reviews cleanly.
+4.  **About/Trust Section:** Display company history and trust badges (Google/Facebook ratings).
+
+### Phase 4: Contact, SMS & Email Integration
+1.  **Lead Modal:** Implement the "Send us a Text / Book a Consultation" form inside a shadcn `Dialog`. Include fields: Name, Phone, Email, Address, Service Needed.
+2.  **Form Validation:** Use `react-hook-form` and `zod` to validate all fields before submission.
+3.  **Server Action (`actions/contact.ts`):** 
+    *   Create a Next.js Server Action to securely receive form data.
+    *   Integrate the **Resend API** to email the lead details to the business owner.
+    *   Integrate the **Twilio SDK** to send an SMS notification/auto-reply. Make sure to define `TWILIO_ACCOUNT_SID` and `TWILIO_AUTH_TOKEN` in `.env.local`.
+4.  **Mobile Floating CTA:** Add a fixed, lower-right button visible only on mobile screens that triggers the contact modal.
+
+### Phase 5: Polish & Deployment
+1.  Implement `Metadata` exports in Next.js for precise page title and description SEO.
+2.  Conduct an accessibility audit (ensure high contrast, and test aria-labels for the modal and mobile menu).
+3.  Deploy to Vercel and populate production environment variables for Twilio, Resend, and Google Maps APIs.
