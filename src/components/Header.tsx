@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, MessageSquare, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const navLinks = [

@@ -178,9 +178,10 @@ export default function Gallery() {
               className="max-w-4xl max-h-[80vh] w-full"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={filtered[lightboxIndex]?.src}
-                alt={filtered[lightboxIndex]?.title}
+                alt={filtered[lightboxIndex]?.title ?? ""}
                 className="w-full h-full object-contain rounded-xl"
               />
               <div className="text-center mt-4">
